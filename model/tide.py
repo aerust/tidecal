@@ -6,9 +6,6 @@ TideType = Enum('TideType', [('High', 1), ('Low', 2)])
 class Tide:
     """Tide model"""
     def __init__(self, datetime, prediction_ft, prediction_cm, tide_type, moon_phase = None):
-        # self.date = date
-        # self.day = day
-        # self.time = time
         self.datetime = datetime
         self.prediction_ft = float(prediction_ft)
         self.prediction_cm = int(prediction_cm)
@@ -26,8 +23,6 @@ class Tide:
 
     @staticmethod
     def get_curve(date, tide_1, tide_2):
-        print(tide_1)
-        print(tide_2)
         datetime_1 = tide_1.datetime
         datetime_2 = tide_2.datetime
         half_period = (datetime_2 - datetime_1).total_seconds() / 3600
