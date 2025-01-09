@@ -1,8 +1,4 @@
-from tidecal.tide import Tide
-
-from datetime import timedelta
-import numpy as np
-import matplotlib.pyplot as plt
+from model.tide import Tide
 
 class CalDay:
     """Calendar Day"""

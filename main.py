@@ -1,5 +1,5 @@
-from tidecal.calday import CalDay
-from tidecal.dataparser import NOAADataParser
+from model.calday import CalDay
+from model.dataparser import NOAADataParser
 
 import numpy as np
 import matplotlib.pyplot as plt

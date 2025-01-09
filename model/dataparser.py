@@ -1,5 +1,5 @@
-from tidecal.tide import Tide, TideType
-from tidecal.calday import CalDay
+from model.tide import Tide, TideType
+from model.calday import CalDay
 
 import re
 from datetime import datetime
@@ -19,7 +19,7 @@ class NOAADataParser(DataParser):
             cols = re.sub(r'(\t)\1+', r'\1', line.strip()).split('\t')
             date = cols[0]
             date_time = datetime.strptime(f"{date} {cols[2]}", '%Y/%m/%d %H:%M')
-            # TODO: correctly assign PST vs PD
+            # TODO: correctly assign PST vs PDT
             date_time = date_time.replace(tzinfo=ZoneInfo("America/Los_Angeles"))
             prediction_ft = cols[3]
             prediction_cm = cols[4]
