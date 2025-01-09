@@ -34,12 +34,20 @@ class CalMonth:
 
         return grouped_by_week
 
-    def __get_curves(self, day):
+    def __get_curves(self, day, prev_month = None, next_month = None):
         day_number = day.number
-        # TODO: get days from previous and next months if possible
-        return CalDay.get_curves(self.days[day_number], self.days.get(day_number-1), self.days.get(day_number+1))
 
-    def plot(self, filename):
+        prev_day = self.days.get(day_number-1)
+        if day_number == 1 and prev_month is not None:
+            prev_day = prev_month.days[prev_month.length]
+
+        next_day = self.days.get(day_number+1)
+        if day_number == self.length and next_month is not None:
+            next_day = next_month.days[1]
+
+        return CalDay.get_curves(self.days[day_number], prev_day, next_day)
+
+    def plot(self, filename, prev_month = None, next_month = None):
         # Fill out partial weeks with Nones, so each week is an array of length 7
         full_weeks = {}
         for i in range(self.weeks_count):
@@ -69,7 +77,7 @@ class CalMonth:
                     ax = septuples[i][j]
                     day = weeks[i+1][j]
                     if day is not None:
-                        curves = self.__get_curves(day)
+                        curves = self.__get_curves(day, prev_month, next_month)
                         for (x, y) in curves:
                             ax.plot(x, y, 'tab:blue')
 

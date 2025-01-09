@@ -1,17 +1,18 @@
 from model.tide import Tide, TideType
 from model.calday import CalDay
+from model.calmonth import CalMonth
 
 import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-class DataParser:
+class TidePredictionParser:
     @staticmethod
     def parse(file_path):
         pass
 
     @staticmethod
-    def group_by_month(days):
+    def get_months(days):
         days_grouped = {}
         for day in days:
             month = day.date.month
@@ -21,11 +22,16 @@ class DataParser:
             else:
                 days_grouped[month] = group + [day]
 
-        return days_grouped
+        months = []
+        for i in range(12):
+            days = days_grouped[i + 1]
+            months = months + [CalMonth(i + 1, days)]
 
-class NOAADataParser(DataParser):
+        return months
+
+class NOAADataParser(TidePredictionParser):
     @staticmethod
-    def parse(file_path):
+    def parse(file_path, moon_data = None):
         file = open(file_path, "r")
         tides_grouped = {}
         for line in file:
