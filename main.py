@@ -21,6 +21,8 @@ def line_to_array(input_line):
     return [datetime_var.date(), datetime_var, pred_ft, pred_cm, tide_type]
 
 def model_tide(date, tide_1, tide_2):
+    print(tide_1)
+    print(tide_2)
     datetime_1 = tide_1.datetime
     datetime_2 = tide_2.datetime
     half_period = (datetime_2 - datetime_1).total_seconds() / 3600
@@ -43,11 +45,12 @@ def model_tide(date, tide_1, tide_2):
     # Define the transformation parameters
     amplitude = np.abs((tide_2.prediction_ft - tide_1.prediction_ft)/2)
     frequency = np.pi / half_period
-    phase_shift = hour_2 if tide_2.tide_type == TideType.High else hour_1 - 24
+    phase_shift = hour_2 if datetime_2.date() == date else 24 + hour_2
     vertical_shift = np.abs((tide_2.prediction_ft + tide_1.prediction_ft)/2)
+    flip = 1 if tide_2.tide_type == TideType.High else -1
 
     # Calculate the transformed cosine values
-    y = amplitude * np.cos(frequency * (x - phase_shift)) + vertical_shift
+    y = flip * amplitude * np.cos(frequency * (x - phase_shift)) + vertical_shift
 
     return x, y
 
@@ -56,24 +59,21 @@ Plot Day
 """
 def plot_day(day, prev_day, next_day):
     tides_in_day = len(day.tides)
-    # for i in range(tides_in_day + 1):
-    #     if i == 0:
-    #         (x,y) = model_tide(day.date, prev_day.tides[-1], day.tides[i])
-    #     elif i == tides_in_day:
-    #         (x,y) = model_tide(day.date, day.tides[i-1], next_day.tides[0])
-    #     else:
-    #         (x,y) = model_tide(day.date, day.tides[i-1], day.tides[i])
+    for i in range(tides_in_day + 1):
+        if i == 0:
+            (x,y) = model_tide(day.date, prev_day.tides[-1], day.tides[i])
+        elif i == tides_in_day:
+            (x,y) = model_tide(day.date, day.tides[i-1], next_day.tides[0])
+        else:
+            (x,y) = model_tide(day.date, day.tides[i-1], day.tides[i])
 
-    i = 1
-    (x, y) = model_tide(day.date, day.tides[i - 1], day.tides[i])
-    print(day.tides[i - 1])
-    print(day.tides[i])
-    plt.plot(x, y)
+        plt.plot(x, y)
 
     # Plot the graph
+    plt.xticks(np.arange(0, 24, 3))
     plt.xlabel('hours')
     plt.ylabel('feet')
-    plt.title('Transformed Cosine Function')
+    plt.title(day.date)
     plt.grid(True)
     plt.show()
 
