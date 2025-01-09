@@ -10,6 +10,19 @@ class DataParser:
     def parse(file_path):
         pass
 
+    @staticmethod
+    def group_by_month(days):
+        days_grouped = {}
+        for day in days:
+            month = day.date.month
+            group = days_grouped.get(month)
+            if group is None:
+                days_grouped[month] = [day]
+            else:
+                days_grouped[month] = group + [day]
+
+        return days_grouped
+
 class NOAADataParser(DataParser):
     @staticmethod
     def parse(file_path):
