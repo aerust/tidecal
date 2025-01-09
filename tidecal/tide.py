@@ -10,8 +10,8 @@ class Tide:
         # self.day = day
         # self.time = time
         self.datetime = datetime
-        self.prediction_ft = prediction_ft
-        self.prediction_cm = prediction_cm
+        self.prediction_ft = float(prediction_ft)
+        self.prediction_cm = int(prediction_cm)
         self.tide_type = tide_type
         self.moon_phase = moon_phase
 

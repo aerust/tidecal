@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 class CalDay:
     """Calendar Day"""
     def __init__(self, tides, previous = None):
@@ -8,7 +10,7 @@ class CalDay:
         self.date = date_set.pop()
         # TODO: this should be ordered
         self.tides = tides
-        self.previous = previous
+        self.prev_date = self.date - timedelta(days=1)
 
     def __repr__(self):
         return f"Date: {self.date}, tides: {self.tides}, has previous: {self.previous is not None}"
