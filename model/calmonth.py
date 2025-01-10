@@ -1,6 +1,7 @@
 from model.calday import CalDay
 
 import calendar
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
@@ -117,6 +118,13 @@ class CalMonth:
                         curves = self.get_curves(day, prev_month, next_month)
                         for (x, y) in curves:
                             ax.plot(x, y, 'tab:blue')
+
+                        moon_phase = self.moon_phases.get(day.number)
+                        if moon_phase is not None:
+                            x = np.linspace(0, 24, 1000)
+                            y = np.linspace(15, 15, 1000)
+                            ax.plot(x,y, 'tab:red', label=moon_phase.moon_phase_name)
+                            ax.legend(loc="upper right", fontsize="x-small")
 
             for ax in fig.get_axes():
                 ax.label_outer()
