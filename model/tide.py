@@ -5,12 +5,11 @@ TideType = Enum('TideType', [('High', 1), ('Low', 2)])
 
 class Tide:
     """Tide model"""
-    def __init__(self, datetime, prediction_ft, prediction_cm, tide_type, moon_phase = None):
+    def __init__(self, datetime, prediction_ft, prediction_cm, tide_type):
         self.datetime = datetime
         self.prediction_ft = float(prediction_ft)
         self.prediction_cm = int(prediction_cm)
         self.tide_type = tide_type
-        self.moon_phase = moon_phase
 
     def __repr__(self):
         return f"Datetime: {self.datetime}, Pred(ft): {self.prediction_ft}, Pred(cm): {self.prediction_cm}, {self.tide_type}"
