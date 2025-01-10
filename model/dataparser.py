@@ -1,4 +1,4 @@
-from model.moonphase import MoonPhase, MoonPhaseType
+from model.moonphase import MoonPhase
 from model.tide import Tide, TideType
 from model.calday import CalDay
 from model.calmonth import CalMonth
