@@ -1,7 +1,6 @@
 from model.calday import CalDay
 
 import calendar
-import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
@@ -110,25 +109,45 @@ class CalMonth:
             gs = fig.add_gridspec(weeks_count, 7, hspace=0, wspace=0)
             septuples = gs.subplots(sharex='col', sharey='row')
             fig.suptitle(f"{self.name} {self.year}")
+            plt.rcParams['text.usetex'] = True
+            plt.rcParams['text.latex.preamble'] = r'\usepackage{wasysym}'
             for i in range(weeks_count):
                 for j in range(7):
                     ax = septuples[i][j]
-                    day = weeks[i+1][j]
+                    day = weeks[i + 1][j]
+
+                    ax.set_xlim(0, 24)
+
+                    if i == 0:
+                        ax.title.set_text(calendar.day_name[j])
+
+                    if i == weeks_count -1:
+                        ax.set_yticks([])
+                    else:
+                        ax.set_yticks([])
+
+                    if j == 0:
+                        ax.set_xticks([])
+                    else:
+                        ax.set_xticks([])
+
                     if day is not None:
+                        ax.text(0.5, 0.5, day.number, transform=ax.transAxes,
+                                fontsize=24, color='gray', ha='center', va='center', zorder=-1)
                         curves = self.get_curves(day, prev_month, next_month)
                         for (x, y) in curves:
                             ax.plot(x, y, 'tab:blue')
 
                         moon_phase = self.moon_phases.get(day.number)
                         if moon_phase is not None:
-                            x = np.linspace(0, 24, 1000)
-                            y = np.linspace(15, 15, 1000)
-                            ax.plot(x,y, 'tab:red', label=moon_phase.moon_phase_name)
-                            ax.legend(loc="upper right", fontsize="x-small")
+                            # Add background text
+                            ax.text(0.1, 0.9, f"${moon_phase.latex_command}$", transform=ax.transAxes,
+                                    fontsize=16, color='black', ha='left', va='top', zorder=-1)
 
             for ax in fig.get_axes():
                 ax.label_outer()
 
+            plt.tight_layout()
             pdf.savefig()
 
             # plt.figure()

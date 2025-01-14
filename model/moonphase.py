@@ -3,10 +3,10 @@ from enum import Enum
 MoonPhaseType = Enum('MoonPhaseType', [('NewMoon', 1), ('FirstQuarter', 2), ('FullMoon', 3), ('ThirdQuarter', 4)])
 
 MoonPhases = {
-    MoonPhaseType.NewMoon: { "name": "New Moon", "symbol": "🌑" },
-    MoonPhaseType.FirstQuarter: { "name": "First Quarter", "symbol": "🌓"},
-    MoonPhaseType.FullMoon: { "name": "Full Moon", "symbol": "🌕"},
-    MoonPhaseType.ThirdQuarter: { "name": "Third Quarter", "symbol": "🌗" }
+    MoonPhaseType.NewMoon: { "name": "New Moon", "latex_command": "\\newmoon" },
+    MoonPhaseType.FirstQuarter: { "name": "First Quarter", "latex_command": "\\rightmoon" },
+    MoonPhaseType.FullMoon: { "name": "Full Moon", "latex_command": "\\fullmoon" },
+    MoonPhaseType.ThirdQuarter: { "name": "Third Quarter", "latex_command": "\\leftmoon" }
 }
 
 class MoonPhase:
@@ -14,8 +14,8 @@ class MoonPhase:
         self.datetime = datetime
         self.month_number = self.datetime.month
         self.moon_phase_type = moon_phase_type
-        self.moon_phase_name = MoonPhases[self.moon_phase_type]['name']
-        self.moon_phase_symbol = MoonPhases[self.moon_phase_type]['symbol']
+        self.name = MoonPhases[self.moon_phase_type]['name']
+        self.latex_command = MoonPhases[self.moon_phase_type]['latex_command']
 
     def __lt__(self, other):
         return self.datetime < other.datetime

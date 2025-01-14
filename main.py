@@ -5,6 +5,24 @@ MODES = ["MONTH", "YEAR"]
 MODE = MODES[0]
 
 if __name__ == '__main__':
+    # TODO: finish debugging why PATH changes don't work
+    # work-a-round:
+    #  - replace 'latex' with '/Library/TeX/texbin/latex' in texmanager.py
+    #  - replace 'kpsewhich' with '/Library/TeX/texbin/kpsewhich' in dviread.py
+    #
+    # import os
+    # os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin'
+    # print(os.environ['PATH'])
+    # import subprocess
+    # command = ['/Library/TeX/texbin/latex', '-interaction=nonstopmode', '--halt-on-error', '--output-directory=data', 'example/example.tex']
+    # env = os.environ.copy()
+    # report = subprocess.check_output(command, env=env)
+    # print(report)
+    # command = ['/Library/TeX/texbin/kpsewhich', 'cmss17.tfm']
+    # kwargs = {'encoding': 'utf-8', 'errors': 'surrogateescape'}
+    # result = subprocess.run(command, **kwargs, env=env)
+    # print(result)
+
     tide_data_file = "example/data_example.txt"
     moon_data_file = "example/moon_phases_san_juan_island_2025.csv"
     moon_phases = TimeAndDateMoonPhaseParser(2025).parse(moon_data_file)
